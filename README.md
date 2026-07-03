@@ -1,6 +1,6 @@
-# AI YouTube Study Assistant
+# YouTube Study Assistant
 
-AI YouTube Study Assistant is a web application that converts YouTube lectures into easy-to-understand study material using Google's Gemini AI. Simply paste a YouTube video URL, and the application extracts the transcript and generates an AI-powered summary.
+YouTube Study Assistant is a web application that converts YouTube lectures into easy-to-understand study material using Google's Gemini AI. Simply paste a YouTube video URL, and the application extracts the transcript and generates an AI-powered summary.
 
 ## Features
 
