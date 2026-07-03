@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Summary</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,#2563eb,#7c3aed);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px;
+        }
+
+        .container{
+            width:auto;
+            height:auto;
+            
+            background:white;
+            border-radius:20px;
+            padding:40px;
+            box-shadow:0 20px 40px rgba(0,0,0,.2);
+        }
+
+        h1{
+            color:#1e293b;
+            margin-bottom:10px;
+            text-align:center;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#64748b;
+            margin-bottom:30px;
+        }
+
+        .summary-box{
+            background:#f8fafc;
+           
+            padding:25px;
+            border-radius:12px;
+            line-height:1.8;
+            white-space:pre-wrap;
+            color:#334155;
+            font-size:16px;
+            overflow-wrap:break-word;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:30px;
+            text-decoration:none;
+           
+            color:white;
+            padding:12px 24px;
+            border-radius:10px;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            background:#cacfdd;
+        }
+
+        .center{
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+   
+
+
+    <div class="summary-box">
+<%- summary %>
+    </div>
+
+    <div class="center">
+        <a href="/youtube" class="btn">← Analyze Another Video</a>
+    </div>
+
+</div>
+
+</body>
+</html>

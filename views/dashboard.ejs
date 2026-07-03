@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YouTube URL Dashboard</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 320px;
+  }
+
+  h2 {
+    margin-top: 0;
+    color: #333;
+  }
+
+  input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  button:hover {
+    background: #cc0000;
+  }
+
+  #output {
+    margin-top: 15px;
+    color: #555;
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+</style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>YouTube URL Dashboard</h2>
+  <form action="/youtube" method="POST">
+    <input
+        type="text"
+        name="url"
+        placeholder="Paste YT URL here"
+        required
+    >
+    <br>
+    <button type="submit">Submit</button>
+</form>
+    <p id="output"></p>
+  </div>
+
+  
+
+</body>
+</html>
