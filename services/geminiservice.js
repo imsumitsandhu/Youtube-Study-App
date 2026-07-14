@@ -5,6 +5,7 @@ async function generateSummary(transcript) {
 You are an expert teacher.
 
 Summarize the following YouTube transcript in simple language.
+Also give important points to keep in mind.
 
 Transcript:
 ${transcript}
