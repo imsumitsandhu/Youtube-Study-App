@@ -7,24 +7,21 @@ router.get("/", (req, res) => {
     res.render("youtube");
 });
 
-
-
 router.post("/", async (req, res) => {
     try {
         const url = req.body.url;
 
         const transcript = await getTranscript(url);
 
+        const { marked } = require("marked");
 
-const { marked } = require("marked");
+        const summary = await generateSummary(transcript);
 
-const summary = await generateSummary(transcript);
+        const htmlSummary = marked(summary);
 
-const htmlSummary = marked(summary);
-
-res.render("result", {
-    summary: htmlSummary
-});
+        res.render("result", {
+            summary: htmlSummary
+        });
     } catch (err) {
         console.log(err);
         res.send("Error fetching transcript");
