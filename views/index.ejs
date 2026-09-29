@@ -1,11 +1,161 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YT Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1c2557;
+      --ink-2: #2b3778;
+      --paper: #f4f6fb;
+      --text: #1a1f36;
+      --muted: #5d6480;
+      --line: #d3d9ea;
+      --mark: #ffe45c;
+      --danger: #c0352b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background: var(--paper);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* top bar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px clamp(20px, 5vw, 56px);
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink);
+      font-family: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+      font-weight: 700; font-size: 1.3rem;
+    }
+    .brand-icon {
+      width: 34px; height: 34px; border-radius: 9px; background: var(--ink);
+      display: grid; place-items: center;
+    }
+    .logout {
+      color: var(--ink); font-weight: 600; font-size: .95rem; text-decoration: none;
+      padding: 9px 16px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff;
+      transition: border-color .15s;
+    }
+    .logout:hover { border-color: var(--ink); }
+    .logout:focus-visible, .btn:focus-visible, .brand:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+    /* main */
+    main { max-width: 860px; margin: 0 auto; padding: clamp(36px, 8vw, 96px) 24px 64px; }
+    h1 {
+      font-family: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+      font-weight: 700; letter-spacing: -0.025em; line-height: 1.04;
+      font-size: clamp(2.4rem, 6vw, 4.2rem); color: var(--ink); max-width: 16ch;
+    }
+    h1 mark {
+      color: inherit;
+      background: linear-gradient(transparent 55%, var(--mark) 55%, var(--mark) 93%, transparent 93%);
+      padding: 0 4px; margin: 0 -4px;
+    }
+    .lede { margin-top: 20px; font-size: 1.15rem; line-height: 1.55; color: var(--muted); max-width: 46ch; }
+
+    /* form */
+    .alert {
+      margin-top: 32px; border-left: 4px solid var(--danger); background: #fdecea; color: #8f231b;
+      padding: 12px 14px; border-radius: 6px; font-size: .95rem;
+    }
+    .paste {
+      margin-top: 36px; display: flex; gap: 12px; padding: 10px; background: #fff;
+      border: 1.5px solid var(--line); border-radius: 16px;
+      box-shadow: 0 14px 30px -18px rgba(28, 37, 87, .35);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .paste:focus-within { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(28, 37, 87, .14), 0 14px 30px -18px rgba(28, 37, 87, .35); }
+    .paste input {
+      flex: 1; min-width: 0; border: none; background: none; outline: none;
+      font: inherit; font-size: 1.05rem; color: var(--text); padding: 0 12px;
+    }
+    .paste input::placeholder { color: #9aa1bb; }
+    .btn {
+      height: 52px; padding: 0 26px; border: none; border-radius: 10px; cursor: pointer;
+      background: var(--ink); color: #fff; font: inherit; font-weight: 600; font-size: 1rem;
+      white-space: nowrap; transition: background .15s;
+    }
+    .btn:hover { background: var(--ink-2); }
+    .btn:disabled { background: var(--muted); cursor: wait; }
+    .note { margin-top: 14px; font-size: .92rem; color: var(--muted); }
+
+    /* what you get */
+    .gets { margin-top: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .gets h3 {
+      font-family: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+      font-size: 1.15rem; color: var(--ink); margin-bottom: 6px;
+    }
+    .gets p { color: var(--muted); line-height: 1.5; font-size: .98rem; }
+    .gets > div { border-top: 2px solid var(--ink); padding-top: 16px; }
+
+    @media (max-width: 680px) {
+      .paste { flex-direction: column; padding: 12px; }
+      .paste input { height: 48px; }
+      .btn { width: 100%; }
+      .gets { grid-template-columns: 1fr; gap: 24px; margin-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="#ffe45c"/></svg>
+      </span>
+      YT Notes
+    </a>
+    <a class="logout" href="/logout">Log out</a>
+  </header>
+
+  <main>
+    <h1>Turn any lecture into <mark>study notes</mark>.</h1>
+    <p class="lede">Paste a YouTube link and get the key points, organized and ready to revise from.</p>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert" role="alert"><%= error %></div>
+    <% } %>
+
+    <!-- change action / input name if your routes/youtube.js expects something different -->
+    <form class="paste" id="pasteForm" method="POST" action="/youtube">
+      <input type="url" name="url" id="url" placeholder="https://www.youtube.com/watch?v=..." aria-label="YouTube link" required>
+      <button type="submit" class="btn" id="submitBtn">Generate notes</button>
+    </form>
+    <p class="note">Works with videos that have captions. Longer videos take a bit more time.</p>
+
+    <section class="gets" aria-label="What you get">
+      <div>
+        <h3>Key points, not a transcript</h3>
+        <p>The main ideas pulled out and grouped by topic, so you read minutes instead of hours.</p>
+      </div>
+      <div>
+        <h3>Easy to scan</h3>
+        <p>Clear headings and short lines make the notes quick to review before an exam.</p>
+      </div>
+      <div>
+        <h3>Yours to keep</h3>
+        <p>Your account keeps your notes together, so you can come back to them anytime.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // show a waiting state, since generating notes can take a while
+    document.getElementById('pasteForm').addEventListener('submit', function () {
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Generating notes...';
+    });
+  </script>
+</body>
 </html>
